@@ -14,7 +14,7 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	test := httptest.NewServer(JsonHeaderCheck(testHandler))
+	test := httptest.NewServer(JsonHeaderCheck()(testHandler))
 	defer test.Close()
 
 	req, err := http.NewRequest("POST", test.URL, bytes.NewBuffer([]byte(`{"echo":"test"}`)))
@@ -39,7 +39,7 @@ func TestJsonHeaderCheckCorrectHeader(t *testing.T) {
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	test := httptest.NewServer(JsonHeaderCheck(testHandler))
+	test := httptest.NewServer(JsonHeaderCheck()(testHandler))
 	defer test.Close()
 
 	req, err := http.NewRequest("POST", test.URL, bytes.NewBuffer([]byte(`{"echo":"test"}`)))

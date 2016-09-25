@@ -15,7 +15,7 @@ func TestJson(t *testing.T) {
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	test := httptest.NewServer(Json(testHandler))
+	test := httptest.NewServer(Json()(testHandler))
 	defer test.Close()
 
 	response, err := http.Get(test.URL)

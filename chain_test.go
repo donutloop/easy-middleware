@@ -42,7 +42,7 @@ func TestThenOrdersHandlersCorrectly(t *testing.T) {
 
 func TestCreateOrdersHandlersCorrectly(t *testing.T) {
 
-	middlewareBase := func(tag string) Middleware {
+	middlewareBase := func(tag string)  Middleware {
 		return func(h http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte(tag))

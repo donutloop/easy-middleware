@@ -5,9 +5,12 @@ import (
 )
 
 // Set the Content-Type header 'application/json'
-func Json(h http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-		w.Header().Set("Content-Type", "application/json")
-		h.ServeHTTP(w, r)
-	})
+func Json() Middleware {
+	return func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+			w.Header().Set("Content-Type", "application/json")
+			h.ServeHTTP(w, r)
+		})
+	}
+
 }
