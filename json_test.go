@@ -7,14 +7,14 @@ import (
 	"encoding/json"
 )
 
-func testHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(map[string]string{"echo":"test"})
-}
-
 func TestJson(t *testing.T) {
 
-	testHandler := http.HandlerFunc(testHandler)
+	handler := func (w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]string{"echo":"test"})
+	}
+
+	testHandler := http.HandlerFunc(handler)
 	test := httptest.NewServer(Json(testHandler))
 	defer test.Close()
 
