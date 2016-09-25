@@ -13,11 +13,44 @@ type Chain struct {
 }
 
 // New creates a new chain,
-// memorizing the given list of middleware constructors.
+// memorizing the given list of middleware.
 // New serves no other function,
 // constructors are only called upon a call to Then().
 func New(middleware ...Middleware) Chain {
 	return Chain{middleware:append([]Middleware{}, middleware...)}
+}
+
+// Create a chain, adding the specified middleware
+// as the last ones in the request flow.
+//
+//     stdChain := easy_middleware.New(m1, m2)
+//     extChain := Create(stdChain, m3, m4)
+//     // requests in stdChain go m1 -> m2
+//     // requests in extChain go m1 -> m2 -> m3 -> m4
+func Create(chain Chain, middleware ...Middleware) Chain {
+	newMiddleware := make([]Middleware, 0, len(chain.middleware) + len(middleware))
+	newMiddleware = append(newMiddleware, chain.middleware...)
+	newMiddleware = append(newMiddleware, middleware...)
+
+	return Chain{middleware:newMiddleware}
+}
+
+// Append extends a chain, adding the specified constructors
+// as the last ones in the request flow.
+//
+// Returns a new chain, leaving the originals one untouched.
+//
+//     stdChain := easy_middleware.New(m1, m2)
+//     stdChain := easy_middleware.New(m3, m4)
+//     mergedChain := Merge(m3, m4)
+//     // requests in stdChain go m1 -> m2
+//     // requests in extChain go m1 -> m2 -> m3 -> m4
+func Merge(chainOne Chain, chainTwo Chain) Chain {
+	newChain := make([]Middleware, 0, len(chainOne.middleware) + len(chainTwo.middleware))
+	newChain = append(newChain, chainOne.middleware...)
+	newChain = append(newChain, chainTwo.middleware...)
+
+	return Chain{middleware:chainTwo.middleware}
 }
 
 // Then chains the middleware and returns the final http.Handler.
@@ -29,7 +62,7 @@ func New(middleware ...Middleware) Chain {
 // (assuming every middleware calls the following one).
 //
 // A chain can be safely reused by calling Then() several times.
-//     stdStack := alice.New(ratelimitHandler, csrfHandler)
+//     stdStack := easy_middleware.New(ratelimitHandler, csrfHandler)
 //     indexPipe = stdStack.Then(indexHandler)
 //     authPipe = stdStack.Then(authHandler)
 // Note that constructors are called on every call to Then()
@@ -66,21 +99,4 @@ func (c Chain) ThenFunc(endpointFunc http.HandlerFunc) http.Handler {
 	}
 
 	return c.Then(endpointFunc)
-}
-
-// Append extends a chain, adding the specified constructors
-// as the last ones in the request flow.
-//
-// Append returns a new chain, leaving the original one untouched.
-//
-//     stdChain := easy_middleware.New(m1, m2)
-//     extChain := stdChain.Append(m3, m4)
-//     // requests in stdChain go m1 -> m2
-//     // requests in extChain go m1 -> m2 -> m3 -> m4
-func (c Chain) Create(chain Chain, middleware ...Middleware) Chain {
-	newMiddleware := make([]Middleware, 0, len(chain.middleware) + len(middleware))
-	newMiddleware = append(newMiddleware, c.middleware...)
-	newMiddleware = append(newMiddleware, middleware...)
-
-	return Chain{middleware:newMiddleware}
 }
