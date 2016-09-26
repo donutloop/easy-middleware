@@ -8,7 +8,6 @@ type validator interface {
 	ok(w http.ResponseWriter, r http.Request) (bool, error)
 }
 
-// Logging of device request time
 func isValid(v validator) Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
