@@ -7,7 +7,7 @@ import (
 )
 
 // Logging of device request time
-func Logging(logger *log.Logger, h http.Handler) Middleware {
+func Logging(logger *log.Logger) Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 			start := time.Now()
