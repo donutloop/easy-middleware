@@ -12,5 +12,4 @@ func Json() Middleware {
 			h.ServeHTTP(w, r)
 		})
 	}
-
 }

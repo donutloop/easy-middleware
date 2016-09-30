@@ -10,7 +10,6 @@ import (
 	"strings"
 )
 
-
 func TestLogging(t *testing.T) {
 
 	handler := func (w http.ResponseWriter, r *http.Request) {

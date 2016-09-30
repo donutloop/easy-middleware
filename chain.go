@@ -35,9 +35,7 @@ func Create(chain Chain, middleware ...Middleware) Chain {
 	return Chain{middleware:newMiddleware}
 }
 
-// Append extends a chain, adding the specified constructors
-// as the last ones in the request flow.
-//
+// Merge two chains
 // Returns a new chain, leaving the originals one untouched.
 //
 //     stdChain := easy_middleware.New(m1, m2)
