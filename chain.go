@@ -20,6 +20,23 @@ func New(middleware ...Middleware) Chain {
 	return Chain{middleware:append([]Middleware{}, middleware...)}
 }
 
+// Copy middleware of existing chain and takes that as base for a new chain
+// stdChain := easy_middleware.New(m1, m2)
+// stdChainCopy := stdChain.Copy()
+func (c Chain) Copy() Chain{
+	return Chain{middleware:c.middleware}
+}
+
+// Copy middleware of existing chain and takes that as base for a new chain
+// stdChain := easy_middleware.New(m1, m2)
+// stdChainCopy := stdChain.Copy()
+// stdChainCopy := stdChain.Add(m1)
+// or
+// stdChainCopy := stdChain.Add(m1, m2)
+func (c *Chain) Add(middleware ...Middleware) {
+	c.middleware = append(c.middleware, middleware...)
+}
+
 // Create a chain, adding the specified middleware
 // as the last ones in the request flow.
 //
@@ -43,7 +60,7 @@ func Create(chain Chain, middleware ...Middleware) Chain {
 //     mergedChain := Merge(m3, m4)
 //     // requests in stdChain go m1 -> m2
 //     // requests in extChain go m1 -> m2 -> m3 -> m4
-func Merge(chainOne Chain, chainTwo Chain) Chain {
+func Merge(chainOne, chainTwo Chain) Chain {
 	newChain := make([]Middleware, 0, len(chainOne.middleware) + len(chainTwo.middleware))
 	newChain = append(newChain, chainOne.middleware...)
 	newChain = append(newChain, chainTwo.middleware...)

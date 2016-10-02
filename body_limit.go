@@ -9,7 +9,8 @@ func SetBodyLimit(limit int64) Middleware {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 
 			if r.ContentLength > limit {
-				return http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+				http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+				return
 			}
 
 			h.ServeHTTP(w, r)
