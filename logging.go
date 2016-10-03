@@ -10,13 +10,16 @@ import (
 func Logging(logger *log.Logger) Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-			start := time.Now()
-			logger.Printf("Started %s %s", r.Method, r.URL.Path)
-
+			defer trace(logger, r)()
 			h.ServeHTTP(w, r)
-
-			logger.Printf("%s Completed in %v", r.UserAgent() ,time.Since(start))
 		})
 	}
 }
 
+func trace(logger *log.Logger, r *http.Request) func() {
+	start := time.Now()
+	logger.Printf("Method: %s, url: %s, agent: %s started", r.Method, r.URL.Path, r.UserAgent())
+	return func() {
+		logger.Printf("Method: %s, url: %s, agent: %s completed in %v", r.Method, r.URL.Path, r.UserAgent() ,time.Since(start))
+	}
+}

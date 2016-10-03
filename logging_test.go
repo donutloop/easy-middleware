@@ -31,7 +31,7 @@ func TestLogging(t *testing.T) {
 		t.Errorf("logging middleware request: %s", err.Error())
 	}
 
-	if  strings.Contains(b.String(), "Started GET Go-http-client/1.1 Completed in") {
+	if  strings.Contains(b.String(), "Completed in") && strings.Contains(b.String(), "started") {
 		t.Errorf("logging middleware request: log output should match %q is a string", b.String())
 	}
 }
