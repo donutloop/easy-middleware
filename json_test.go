@@ -1,17 +1,17 @@
 package easy_middlware
 
 import (
-	"testing"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
-	"encoding/json"
+	"testing"
 )
 
 func TestJson(t *testing.T) {
 
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{"echo":"test"})
+		json.NewEncoder(w).Encode(map[string]string{"echo": "test"})
 	}
 
 	testHandler := http.HandlerFunc(handler)
@@ -19,13 +19,12 @@ func TestJson(t *testing.T) {
 	defer test.Close()
 
 	response, err := http.Get(test.URL)
-	defer response.Body.Close()
-
 	if err != nil {
 		t.Errorf("Json middleware request: %s", err.Error())
 	}
+	defer response.Body.Close()
 
-	if header := response.Header.Get("Content-Type"); header != "application/json"{
+	if header := response.Header.Get("Content-Type"); header != "application/json" {
 		t.Errorf("Json middleware request: %s", err.Error())
 	}
 }

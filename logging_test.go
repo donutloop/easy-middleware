@@ -2,19 +2,19 @@ package easy_middlware
 
 import (
 	"bytes"
-	"testing"
-	"net/http"
 	"encoding/json"
-	"net/http/httptest"
 	"log"
+	"net/http"
+	"net/http/httptest"
 	"strings"
+	"testing"
 )
 
 func TestLogging(t *testing.T) {
 
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		json.NewEncoder(w).Encode(map[string]string{"echo":"test"})
+		json.NewEncoder(w).Encode(map[string]string{"echo": "test"})
 	}
 
 	var b bytes.Buffer
@@ -25,16 +25,13 @@ func TestLogging(t *testing.T) {
 	defer test.Close()
 
 	response, err := http.Get(test.URL)
-	defer response.Body.Close()
 
 	if err != nil {
 		t.Errorf("logging middleware request: %s", err.Error())
 	}
+	defer response.Body.Close()
 
-	if  strings.Contains(b.String(), "Completed in") && strings.Contains(b.String(), "started") {
+	if strings.Contains(b.String(), "Completed in") && strings.Contains(b.String(), "started") {
 		t.Errorf("logging middleware request: log output should match %q is a string", b.String())
 	}
 }
-
-
-
