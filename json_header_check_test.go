@@ -1,15 +1,15 @@
 package easy_middlware
 
 import (
-	"net/http"
-	"testing"
-	"net/http/httptest"
 	"bytes"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 )
 
 func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
@@ -33,7 +33,7 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 
 func TestJsonHeaderCheckCorrectHeader(t *testing.T) {
 
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 

@@ -11,7 +11,7 @@ type HttpError struct {
 	Error string
 }
 
-func WriteJsonError(w http.ResponseWriter, v HttpError, code int)  (int, error) {
+func WriteJsonError(w http.ResponseWriter, v HttpError, code int) (int, error) {
 	b, err := json.Marshal(v)
 	w.WriteHeader(code)
 	if err != nil {

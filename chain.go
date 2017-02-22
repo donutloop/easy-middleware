@@ -17,14 +17,14 @@ type Chain struct {
 // New serves no other function,
 // constructors are only called upon a call to Then().
 func New(middleware ...Middleware) Chain {
-	return Chain{middleware:append([]Middleware{}, middleware...)}
+	return Chain{middleware: append([]Middleware{}, middleware...)}
 }
 
 // Copy middleware of existing chain and takes that as base for a new chain
 // stdChain := easy_middleware.New(m1, m2)
 // stdChainCopy := stdChain.Copy()
-func (c Chain) Copy() Chain{
-	return Chain{middleware:c.middleware}
+func (c Chain) Copy() Chain {
+	return Chain{middleware: c.middleware}
 }
 
 // Copy middleware of existing chain and takes that as base for a new chain
@@ -45,11 +45,11 @@ func (c *Chain) Add(middleware ...Middleware) {
 //     // requests in stdChain go m1 -> m2
 //     // requests in extChain go m1 -> m2 -> m3 -> m4
 func Create(chain Chain, middleware ...Middleware) Chain {
-	newMiddleware := make([]Middleware, 0, len(chain.middleware) + len(middleware))
+	newMiddleware := make([]Middleware, 0, len(chain.middleware)+len(middleware))
 	newMiddleware = append(newMiddleware, chain.middleware...)
 	newMiddleware = append(newMiddleware, middleware...)
 
-	return Chain{middleware:newMiddleware}
+	return Chain{middleware: newMiddleware}
 }
 
 // Merge two chains
@@ -61,11 +61,11 @@ func Create(chain Chain, middleware ...Middleware) Chain {
 //     // requests in stdChain go m1 -> m2
 //     // requests in extChain go m1 -> m2 -> m3 -> m4
 func Merge(chainOne, chainTwo Chain) Chain {
-	newChain := make([]Middleware, 0, len(chainOne.middleware) + len(chainTwo.middleware))
+	newChain := make([]Middleware, 0, len(chainOne.middleware)+len(chainTwo.middleware))
 	newChain = append(newChain, chainOne.middleware...)
 	newChain = append(newChain, chainTwo.middleware...)
 
-	return Chain{middleware:chainTwo.middleware}
+	return Chain{middleware: chainTwo.middleware}
 }
 
 // Then chains the middleware and returns the final http.Handler.

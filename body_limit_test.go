@@ -1,15 +1,15 @@
 package easy_middlware
 
 import (
-"net/http"
-"testing"
-"net/http/httptest"
-"bytes"
-"encoding/json"
+	"bytes"
+	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 )
 
 func TestBodyLimitExceeded(t *testing.T) {
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
@@ -28,7 +28,7 @@ func TestBodyLimitExceeded(t *testing.T) {
 	defer response.Body.Close()
 
 	herr := &HttpError{}
-	if err := json.NewDecoder(response.Body).Decode(herr); err != nil{
+	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
 	}
 
@@ -38,7 +38,7 @@ func TestBodyLimitExceeded(t *testing.T) {
 }
 
 func TestBodyLimit(t *testing.T) {
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
@@ -56,7 +56,7 @@ func TestBodyLimit(t *testing.T) {
 	}
 	defer response.Body.Close()
 
-	if response.StatusCode != http.StatusOK  {
+	if response.StatusCode != http.StatusOK {
 		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %v)", response.StatusCode)
 	}
 }

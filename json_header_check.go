@@ -1,8 +1,8 @@
 package easy_middlware
 
 import (
-	"net/http"
 	"mime"
+	"net/http"
 	"strings"
 )
 
@@ -12,7 +12,7 @@ import (
 // exists, it MUST be UTF-8.
 func JsonHeaderCheck() Middleware {
 	return func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			mediaType, params, _ := mime.ParseMediaType(r.Header.Get("Content-Type"))
 			charset, ok := params["charset"]
 

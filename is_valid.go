@@ -10,10 +10,10 @@ type validator interface {
 
 func isValid(v validator) Middleware {
 	return func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			if ok, err := v.ok(w, *r); !ok {
-				WriteJsonError(w, HttpError{Error:err.Error()}, http.StatusBadRequest)
+				WriteJsonError(w, HttpError{Error: err.Error()}, http.StatusBadRequest)
 				return
 			}
 
@@ -21,4 +21,3 @@ func isValid(v validator) Middleware {
 		})
 	}
 }
-

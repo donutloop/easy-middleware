@@ -1,28 +1,29 @@
 package easy_middlware
 
 import (
-	"net/http"
-	"testing"
-	"net/http/httptest"
 	"bytes"
-	"errors"
 	"encoding/json"
+	"errors"
+	"net/http"
+	"net/http/httptest"
+	"testing"
 )
 
 type testValidator struct{}
 
 var validatorOkBodyFunc func() (bool, error)
-func (v testValidator) ok(w http.ResponseWriter, r http.Request) (bool, error){
+
+func (v testValidator) ok(w http.ResponseWriter, r http.Request) (bool, error) {
 	return validatorOkBodyFunc()
 }
 
 func TestIsValidFail(t *testing.T) {
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	validatorOkBodyFunc = func() (bool, error){
+	validatorOkBodyFunc = func() (bool, error) {
 		return false, errors.New("Something went wrong")
 	}
 	test := httptest.NewServer(isValid(testValidator{})(testHandler))
@@ -39,7 +40,7 @@ func TestIsValidFail(t *testing.T) {
 	defer response.Body.Close()
 
 	herr := &HttpError{}
-	if err := json.NewDecoder(response.Body).Decode(herr); err != nil{
+	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
 	}
 
@@ -49,12 +50,12 @@ func TestIsValidFail(t *testing.T) {
 }
 
 func TestIsValidSuccess(t *testing.T) {
-	handler := func (w http.ResponseWriter, r *http.Request) {
+	handler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	validatorOkBodyFunc = func() (bool, error){
+	validatorOkBodyFunc = func() (bool, error) {
 		return true, nil
 	}
 	test := httptest.NewServer(isValid(testValidator{})(testHandler))
@@ -74,4 +75,3 @@ func TestIsValidSuccess(t *testing.T) {
 		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %v)", response.StatusCode)
 	}
 }
-

@@ -1,9 +1,9 @@
 package easy_middlware
 
 import (
-	"testing"
-	"net/http/httptest"
 	"net/http"
+	"net/http/httptest"
+	"testing"
 )
 
 func TestThenOrdersHandlersCorrectly(t *testing.T) {
@@ -42,7 +42,7 @@ func TestThenOrdersHandlersCorrectly(t *testing.T) {
 
 func TestCreateOrdersHandlersCorrectly(t *testing.T) {
 
-	middlewareBase := func(tag string)  Middleware {
+	middlewareBase := func(tag string) Middleware {
 		return func(h http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte(tag))
@@ -80,7 +80,7 @@ func TestCreateOrdersHandlersCorrectly(t *testing.T) {
 
 func TestCopyOrdersHandlersCorrectly(t *testing.T) {
 
-	middlewareBase := func(tag string)  Middleware {
+	middlewareBase := func(tag string) Middleware {
 		return func(h http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte(tag))
@@ -117,7 +117,7 @@ func TestCopyOrdersHandlersCorrectly(t *testing.T) {
 
 func TestAddOrdersHandlersCorrectly(t *testing.T) {
 
-	middlewareBase := func(tag string)  Middleware {
+	middlewareBase := func(tag string) Middleware {
 		return func(h http.Handler) http.Handler {
 			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte(tag))

@@ -6,10 +6,10 @@ import (
 
 func SetBodyLimit(limit int64) Middleware {
 	return func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			if r.ContentLength > limit {
-				WriteJsonError(w, HttpError{Error:"Request body limit exceeded"}, http.StatusBadRequest)
+				WriteJsonError(w, HttpError{Error: "Request body limit exceeded"}, http.StatusBadRequest)
 				return
 			}
 
@@ -17,4 +17,3 @@ func SetBodyLimit(limit int64) Middleware {
 		})
 	}
 }
-
