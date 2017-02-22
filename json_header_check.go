@@ -1,4 +1,4 @@
-package easy_middlware
+package easy_middleware
 
 import (
 	"mime"
