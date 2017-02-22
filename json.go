@@ -36,16 +36,7 @@ func (w *JsonResponseWriter) EncodeJson(v interface{}) ([]byte, error) {
 	return b, nil
 }
 
-type HttpError struct {
-	ErrorMessage string
-}
-
-type HttpMessage struct {
-	Message string
-	Data    interface{}
-}
-
-func (w *JsonResponseWriter) WriteError(herr HttpError, code int) error {
+func (w *JsonResponseWriter) WriteError(herr interface{}, code int) error {
 	w.Header().Set("Content-Type", "application/json")
 	b, err := w.EncodeJson(herr)
 

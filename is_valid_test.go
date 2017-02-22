@@ -5,19 +5,31 @@ import (
 	"testing"
 	"net/http/httptest"
 	"bytes"
+	"errors"
+	"encoding/json"
 )
 
-func TestJsonHeaderCheckMissingHeader(t *testing.T) {
+type testValidator struct{}
 
+var validatorOkBodyFunc func() (bool, error)
+func (v testValidator) ok(w http.ResponseWriter, r http.Request) (bool, error){
+	return validatorOkBodyFunc()
+}
+
+func TestIsValidFail(t *testing.T) {
 	handler := func (w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	test := httptest.NewServer(JsonHeaderCheck()(testHandler))
+	validatorOkBodyFunc = func() (bool, error){
+		return false, errors.New("Something went wrong")
+	}
+	test := httptest.NewServer(isValid(testValidator{})(testHandler))
 	defer test.Close()
 
 	req, err := http.NewRequest("POST", test.URL, bytes.NewBuffer([]byte(`{"echo":"test"}`)))
+	req.Header.Set("Content-Type", "application/json")
 
 	client := &http.Client{}
 	response, err := client.Do(req)
@@ -26,19 +38,26 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 	}
 	defer response.Body.Close()
 
-	if response.StatusCode != http.StatusUnsupportedMediaType {
-		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %s)", response.StatusCode)
+	herr := &HttpError{}
+	if err := json.NewDecoder(response.Body).Decode(herr); err != nil{
+		t.Errorf("Json header check marschal body content: %s", err.Error())
+	}
+
+	if response.StatusCode != http.StatusBadRequest || herr.Error != "Something went wrong" {
+		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %v)", response.StatusCode)
 	}
 }
 
-func TestJsonHeaderCheckCorrectHeader(t *testing.T) {
-
+func TestIsValidSuccess(t *testing.T) {
 	handler := func (w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 	}
 
 	testHandler := http.HandlerFunc(handler)
-	test := httptest.NewServer(JsonHeaderCheck()(testHandler))
+	validatorOkBodyFunc = func() (bool, error){
+		return true, nil
+	}
+	test := httptest.NewServer(isValid(testValidator{})(testHandler))
 	defer test.Close()
 
 	req, err := http.NewRequest("POST", test.URL, bytes.NewBuffer([]byte(`{"echo":"test"}`)))
@@ -55,3 +74,4 @@ func TestJsonHeaderCheckCorrectHeader(t *testing.T) {
 		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %v)", response.StatusCode)
 	}
 }
+
