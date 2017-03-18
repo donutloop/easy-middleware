@@ -31,7 +31,7 @@ func TestLogging(t *testing.T) {
 	}
 	defer response.Body.Close()
 
-	if strings.Contains(b.String(), "Completed in") && strings.Contains(b.String(), "started") {
+	if !strings.Contains(b.String(), "completed in") || !strings.Contains(b.String(), "started") {
 		t.Errorf("logging middleware request: log output should match %q is a string", b.String())
 	}
 }
