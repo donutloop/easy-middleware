@@ -27,7 +27,7 @@ func (c Chain) Copy() Chain {
 	return Chain{middleware: c.middleware}
 }
 
-// Copy middleware of existing chain and takes that as base for a new chain
+// Add a middleware to a existing chain
 // stdChain := easy_middleware.New(m1, m2)
 // stdChainCopy := stdChain.Copy()
 // stdChainCopy := stdChain.Add(m1)
