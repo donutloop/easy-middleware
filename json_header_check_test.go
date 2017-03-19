@@ -28,12 +28,12 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 	defer response.Body.Close()
 
 
-	herr := &HttpError{}
+	herr := &ErrorResponse{}
 	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
 	}
 
-	if response.StatusCode != http.StatusUnsupportedMediaType || herr.Error != "Bad Content-Type or charset, expected 'application/json'" {
+	if response.StatusCode != http.StatusUnsupportedMediaType || herr.Error.Message != "Bad Content-Type or charset, expected 'application/json'" {
 		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %s)", response.StatusCode)
 	}
 }

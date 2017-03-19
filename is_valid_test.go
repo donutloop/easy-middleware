@@ -39,12 +39,12 @@ func TestIsValidFail(t *testing.T) {
 	}
 	defer response.Body.Close()
 
-	herr := &HttpError{}
+	herr := &ErrorResponse{}
 	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
 	}
 
-	if response.StatusCode != http.StatusBadRequest || herr.Error != "Something went wrong" {
+	if response.StatusCode != http.StatusBadRequest || herr.Error.Message != "Something went wrong" {
 		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %v)", response.StatusCode)
 	}
 }

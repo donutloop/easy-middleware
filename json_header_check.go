@@ -21,7 +21,8 @@ func JsonHeaderCheck() Middleware {
 			}
 
 			if r.ContentLength > 0 && !(mediaType == "application/json" && strings.ToUpper(charset) == "UTF-8") {
-				WriteJsonError(w, HttpError{Error:"Bad Content-Type or charset, expected 'application/json'"}, http.StatusUnsupportedMediaType)
+				err := NewError("Bad Content-Type or charset, expected 'application/json'", http.StatusUnsupportedMediaType)
+				WriteJsonError(w, err, http.StatusUnsupportedMediaType)
 				return
 			}
 

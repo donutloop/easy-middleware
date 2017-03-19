@@ -27,12 +27,12 @@ func TestBodyLimitExceeded(t *testing.T) {
 	}
 	defer response.Body.Close()
 
-	herr := &HttpError{}
+	herr := &ErrorResponse{}
 	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
 	}
 
-	if response.StatusCode != http.StatusBadRequest || herr.Error != "Request body limit exceeded" {
+	if response.StatusCode != http.StatusBadRequest || herr.Error.Message != "Request body limit exceeded" {
 		t.Errorf("Json middleware request: Header check isn't correct (StatusCode: %v)", response.StatusCode)
 	}
 }

@@ -13,7 +13,8 @@ func isValid(v validator) Middleware {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 			if ok, err := v.ok(w, *r); !ok {
-				WriteJsonError(w, HttpError{Error: err.Error()}, http.StatusBadRequest)
+				err := NewError(err.Error(), http.StatusBadRequest)
+				WriteJsonError(w, err, http.StatusBadRequest)
 				return
 			}
 
