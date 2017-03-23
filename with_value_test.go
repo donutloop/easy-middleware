@@ -1,8 +1,8 @@
 package easy_middleware
 
 import (
-	"net/http/httptest"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 )
 
@@ -10,7 +10,7 @@ func TestWithValueMiddleware(t *testing.T) {
 	testHandler := func(w http.ResponseWriter, r *http.Request) {
 		v := r.Context().Value("test")
 
-		if v.(string) != "test"{
+		if v.(string) != "test" {
 			t.Errorf("Unexpected value (%s)", v)
 		}
 	}
@@ -25,4 +25,3 @@ func TestWithValueMiddleware(t *testing.T) {
 	}
 	defer response.Body.Close()
 }
-

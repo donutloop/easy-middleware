@@ -7,11 +7,11 @@ import (
 	"fmt"
 )
 
-func NewError(message interface{}, code int ) ErrorResponse {
+func NewError(message interface{}, code int) ErrorResponse {
 	return ErrorResponse{
 		ErrorEntity{
 			Message: message,
-			Code: code,
+			Code:    code,
 		},
 	}
 }
@@ -22,7 +22,7 @@ type ErrorResponse struct {
 
 type ErrorEntity struct {
 	// Code is the HTTP response status code and will always be populated.
-	Code int `json:"code"`
+	Code    int         `json:"code"`
 	Message interface{} `json:"message"`
 }
 

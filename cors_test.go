@@ -1,9 +1,9 @@
 package easy_middleware
 
 import (
+	"net/http"
 	"net/http/httptest"
 	"testing"
-	"net/http"
 )
 
 func TestCors(t *testing.T) {

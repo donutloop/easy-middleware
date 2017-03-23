@@ -2,10 +2,10 @@ package easy_middleware
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"encoding/json"
 )
 
 func TestJsonHeaderCheckMissingHeader(t *testing.T) {
@@ -26,7 +26,6 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 		t.Errorf("Json header check request: %s", err.Error())
 	}
 	defer response.Body.Close()
-
 
 	herr := &ErrorResponse{}
 	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {

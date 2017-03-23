@@ -1,8 +1,8 @@
 package easy_middleware
 
 import (
-	"net/http"
 	"log"
+	"net/http"
 	"net/http/httputil"
 )
 

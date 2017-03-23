@@ -5,7 +5,7 @@ import (
 )
 
 //CORS Middleware creates a new CORS Middleware with default headers.
-func Cors(defaultHeaders  string) Middleware {
+func Cors(defaultHeaders string) Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			// If "api-cors-header" is not given, but "api-enable-cors" is true, we set cors to "*"

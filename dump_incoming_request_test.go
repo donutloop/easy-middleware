@@ -2,11 +2,11 @@ package easy_middleware
 
 import (
 	"bytes"
-	"net/http/httptest"
-	"net/http"
-	"testing"
 	"log"
+	"net/http"
+	"net/http/httptest"
 	"strings"
+	"testing"
 )
 
 func TestDumpIncomingRequest(t *testing.T) {

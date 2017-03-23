@@ -7,7 +7,7 @@ import (
 )
 
 // Recovery middleware for panic
-func Recovery(callback func(requestDump []byte, stackDump []byte))  Middleware  {
+func Recovery(callback func(requestDump []byte, stackDump []byte)) Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -15,7 +15,7 @@ func Recovery(callback func(requestDump []byte, stackDump []byte))  Middleware  
 				if err := recover(); err != nil {
 					if b, err := httputil.DumpRequest(r, true); err == nil {
 						callback(b, debug.Stack())
-					}else{
+					} else {
 						callback(nil, debug.Stack())
 					}
 					WriteJsonError(w, NewError(err, http.StatusInternalServerError), http.StatusInternalServerError)

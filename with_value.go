@@ -1,8 +1,8 @@
 package easy_middleware
 
 import (
-	"net/http"
 	"context"
+	"net/http"
 )
 
 // WithValue is a middleware that sets a given key/value in the request context.
