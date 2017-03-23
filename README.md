@@ -26,9 +26,6 @@ easy-middleware is a lightweight json middleware stack for Go >= 1.7.
 
     import (
         "net/http"
-        "fmt"
-        "os"
-
         "github.com/donutloop/easy-middleware"
     )
 
@@ -39,6 +36,7 @@ easy-middleware is a lightweight json middleware stack for Go >= 1.7.
     	stack.Add(easy_middleware.SqlDb("postgres", "postgres://postgres:postgres@db/postgres?sslmode=disable"))
     
         http.Handle("/user", stack.Then(http.HandlerFunc(userHandler)))
+        http.ListenAndServe(":80", nil)
     }
 
     func userHandler(rw http.ResponseWriter, req *http.Request) {
