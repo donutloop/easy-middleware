@@ -36,12 +36,14 @@ func TestIsValidFail(t *testing.T) {
 	response, err := client.Do(req)
 	if err != nil {
 		t.Errorf("Json header check request: %s", err.Error())
+		return
 	}
 	defer response.Body.Close()
 
 	herr := &ErrorResponse{}
 	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
+		return
 	}
 
 	if response.StatusCode != http.StatusBadRequest || herr.Error.Message != "Something went wrong" {
@@ -68,6 +70,7 @@ func TestIsValidSuccess(t *testing.T) {
 	response, err := client.Do(req)
 	if err != nil {
 		t.Errorf("Json header check request: %s", err.Error())
+		return
 	}
 	defer response.Body.Close()
 

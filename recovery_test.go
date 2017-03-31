@@ -24,9 +24,9 @@ func TestRecoveryMiddleware(t *testing.T) {
 	defer server.Close()
 
 	response, err := http.Get(server.URL)
-
 	if err != nil {
 		t.Errorf("Recovery middleware request: %s", err.Error())
+		return
 	}
 	defer response.Body.Close()
 

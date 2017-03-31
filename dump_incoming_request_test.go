@@ -25,6 +25,7 @@ func TestDumpIncomingRequest(t *testing.T) {
 
 	if err != nil {
 		t.Errorf("DumpIncomingRequest middleware request: %s", err.Error())
+		return
 	}
 	defer response.Body.Close()
 

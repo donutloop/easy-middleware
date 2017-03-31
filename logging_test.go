@@ -28,6 +28,7 @@ func TestLogging(t *testing.T) {
 
 	if err != nil {
 		t.Errorf("logging middleware request: %s", err.Error())
+		return
 	}
 	defer response.Body.Close()
 

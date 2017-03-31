@@ -15,9 +15,6 @@ func TestSqlDb(t *testing.T) {
 			if _, ok := rv.(*sql.DB); !ok {
 				w.WriteHeader(http.StatusBadRequest)
 				return
-			} else if err, ok := rv.(*DatabaseError); ok && err != nil {
-				w.WriteHeader(http.StatusBadRequest)
-				return
 			}
 		}
 
@@ -37,6 +34,7 @@ func TestSqlDb(t *testing.T) {
 	response, err := http.Get(test.URL)
 	if err != nil {
 		t.Errorf("sql db middleware request: %s", err.Error())
+		return
 	}
 	defer response.Body.Close()
 
