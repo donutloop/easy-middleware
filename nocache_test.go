@@ -7,23 +7,14 @@ import (
 	"testing"
 )
 
-func TestURLQuery(t *testing.T) {
-
+func TestNoCache(t *testing.T) {
 	handler := func(w http.ResponseWriter, r *http.Request) {
-
-		if rv := r.Context().Value(easy_middleware.URLQueryKey); rv != nil {
-			if _, ok := rv.(*easy_middleware.Queries); !ok {
-				w.WriteHeader(http.StatusBadRequest)
-				return
-			}
-		}
-
 		w.WriteHeader(http.StatusOK)
 	}
 
 	testHandler := http.HandlerFunc(handler)
 
-	test := httptest.NewServer(easy_middleware.URLQuery()(testHandler))
+	test := httptest.NewServer(easy_middleware.NoCache()(testHandler))
 	defer test.Close()
 
 	response, err := http.Get(test.URL + "?limit=10")

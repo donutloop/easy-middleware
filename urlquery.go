@@ -1,15 +1,14 @@
 package easy_middleware
 
 import (
-	"net/http"
 	"context"
+	"net/http"
 	"net/url"
 	"strings"
 )
 
 // URLQueryKey is the context key for the URL Query
 const URLQueryKey string = "urlquery"
-
 
 // URLQuery is a middleware to parse the URL Query parameters just once,
 // and store the resulting url.Values in the context.
@@ -19,7 +18,7 @@ func URLQuery() Middleware {
 			q, err := extractURLQueries(r)
 			if err != nil {
 				r = r.WithContext(context.WithValue(r.Context(), URLQueryKey, err))
-			}else{
+			} else {
 				r = r.WithContext(context.WithValue(r.Context(), URLQueryKey, q))
 			}
 
@@ -71,4 +70,3 @@ func (q Queries) GetAll() map[string][]string {
 func (q Queries) Count() int {
 	return len(q.C)
 }
-
