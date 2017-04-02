@@ -11,11 +11,14 @@ func TestSqlDb(t *testing.T) {
 
 	handler := func(w http.ResponseWriter, r *http.Request) {
 
-		if rv := r.Context().Value("db"); rv != nil {
+		if rv := r.Context().Value(SqlDbContextKey); rv != nil {
 			if _, ok := rv.(*sql.DB); !ok {
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
+		}else {
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
 		w.WriteHeader(http.StatusOK)

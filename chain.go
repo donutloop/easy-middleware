@@ -2,6 +2,8 @@ package easy_middleware
 
 import "net/http"
 
+type contextKey string
+
 type Middleware func(http.Handler) http.Handler
 
 // Chain acts as a list of middleware.

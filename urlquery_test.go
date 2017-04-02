@@ -16,6 +16,9 @@ func TestURLQuery(t *testing.T) {
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
+		}else {
+			w.WriteHeader(http.StatusBadRequest)
+			return
 		}
 
 		w.WriteHeader(http.StatusOK)

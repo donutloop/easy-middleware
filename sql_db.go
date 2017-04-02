@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-const dbContextKey = "db"
+const SqlDbContextKey contextKey = "sqldb"
 
 // DatabaseError represenst a error for bad database connection,
 // it's occurs while a request process
@@ -25,10 +25,10 @@ func SqlDb(databaseDriver string, dsn string) Middleware {
 
 			db, err := Open(databaseDriver, dsn)
 			if err != nil {
-				r = r.WithContext(context.WithValue(r.Context(), dbContextKey, &DatabaseError{err.Error()}))
+				r = r.WithContext(context.WithValue(r.Context(), SqlDbContextKey, &DatabaseError{err.Error()}))
 			} else {
 				defer Close(db)
-				r = r.WithContext(context.WithValue(r.Context(), dbContextKey, db))
+				r = r.WithContext(context.WithValue(r.Context(), SqlDbContextKey, db))
 			}
 
 			h.ServeHTTP(rw, r)

@@ -8,7 +8,7 @@ import (
 )
 
 // URLQueryKey is the context key for the URL Query
-const URLQueryKey string = "urlquery"
+const URLQueryKey contextKey = "urlquery"
 
 // URLQuery is a middleware to parse the URL Query parameters just once,
 // and store the resulting url.Values in the context.
