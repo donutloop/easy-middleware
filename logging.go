@@ -1,25 +1,25 @@
 package easy_middleware
 
 import (
-	"log"
 	"net/http"
 	"time"
+	"fmt"
 )
 
 // Logging of device request time
-func Logging(logger *log.Logger) Middleware {
+func Logging(callback func(s string)) Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			defer trace(logger, r)()
+			defer trace(callback, r)()
 			h.ServeHTTP(w, r)
 		})
 	}
 }
 
-func trace(logger *log.Logger, r *http.Request) func() {
+func trace(callback func(s string), r *http.Request) func() {
 	start := time.Now()
-	logger.Printf("Method: %s, url: %s, agent: %s started", r.Method, r.URL.Path, r.UserAgent())
+	callback(fmt.Sprintf("Method: %s, url: %s, agent: %s started", r.Method, r.URL.Path, r.UserAgent()))
 	return func() {
-		logger.Printf("Method: %s, url: %s, agent: %s completed in %v", r.Method, r.URL.Path, r.UserAgent(), time.Since(start))
+		callback(fmt.Sprintf("Method: %s, url: %s, agent: %s completed in %v", r.Method, r.URL.Path, r.UserAgent(), time.Since(start)))
 	}
 }
