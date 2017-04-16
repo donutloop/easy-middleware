@@ -20,8 +20,12 @@ func TestLogging(t *testing.T) {
 	var b bytes.Buffer
 	logger := log.New(&b, "", 0)
 
+	loggingCallback := func(s string){
+		logger.Println(s)
+	}
+
 	testHandler := http.HandlerFunc(handler)
-	test := httptest.NewServer(Logging(logger)(testHandler))
+	test := httptest.NewServer(Logging(loggingCallback)(testHandler))
 	defer test.Close()
 
 	response, err := http.Get(test.URL)

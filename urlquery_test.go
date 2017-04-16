@@ -1,7 +1,7 @@
 package easy_middleware_test
 
 import (
-	"github.com/donutloop/easy-middlware"
+	"github.com/donutloop/easy-middleware"
 	"net/http"
 	"net/http/httptest"
 	"testing"
