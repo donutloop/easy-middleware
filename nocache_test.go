@@ -1,10 +1,10 @@
 package easy_middleware_test
 
 import (
+	"github.com/donutloop/easy-middleware"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"github.com/donutloop/easy-middleware"
 )
 
 func TestNoCache(t *testing.T) {

@@ -20,7 +20,7 @@ func TestLogging(t *testing.T) {
 	var b bytes.Buffer
 	logger := log.New(&b, "", 0)
 
-	loggingCallback := func(s string){
+	loggingCallback := func(s string) {
 		logger.Println(s)
 	}
 
