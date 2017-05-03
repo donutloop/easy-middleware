@@ -1,9 +1,9 @@
 package easy_middleware
 
 import (
+	"fmt"
 	"net/http"
 	"time"
-	"fmt"
 )
 
 // Logging of device request time

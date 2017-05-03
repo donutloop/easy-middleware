@@ -16,7 +16,7 @@ func TestSqlDb(t *testing.T) {
 				w.WriteHeader(http.StatusBadRequest)
 				return
 			}
-		}else {
+		} else {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
