@@ -17,8 +17,8 @@ func TestLogging(t *testing.T) {
 		json.NewEncoder(w).Encode(map[string]string{"echo": "test"})
 	}
 
-	var b bytes.Buffer
-	logger := log.New(&b, "", 0)
+	b := new(bytes.Buffer)
+	logger := log.New(b, "", 0)
 
 	loggingCallback := func(s string) {
 		logger.Println(s)
@@ -29,7 +29,6 @@ func TestLogging(t *testing.T) {
 	defer test.Close()
 
 	response, err := http.Get(test.URL)
-
 	if err != nil {
 		t.Errorf("logging middleware request: %s", err.Error())
 		return

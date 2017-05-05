@@ -10,7 +10,7 @@ import (
 func TestTimeout(t *testing.T) {
 
 	handler := func(w http.ResponseWriter, r *http.Request) {
-		<- time.After(3 * time.Second)
+		<- time.After(2 * time.Second)
 
 		select {
 		case <- r.Context().Done():

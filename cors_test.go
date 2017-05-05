@@ -16,7 +16,7 @@ func TestCors(t *testing.T) {
 	defer server.Close()
 
 	req, err := http.NewRequest("Get", server.URL, nil)
-	client := &http.Client{}
+	client := new(http.Client)
 	response, err := client.Do(req)
 	if err != nil {
 		t.Errorf("Cors check request: %s", err.Error())
