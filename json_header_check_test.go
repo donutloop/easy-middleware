@@ -20,7 +20,7 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 
 	req, err := http.NewRequest("POST", test.URL, bytes.NewBuffer([]byte(`{"echo":"test"}`)))
 
-	client := &http.Client{}
+	client := new(http.Client)
 	response, err := client.Do(req)
 	if err != nil {
 		t.Errorf("Json header check request: %s", err.Error())
@@ -28,7 +28,7 @@ func TestJsonHeaderCheckMissingHeader(t *testing.T) {
 	}
 	defer response.Body.Close()
 
-	herr := &ErrorResponse{}
+	herr := new(ErrorResponse)
 	if err := json.NewDecoder(response.Body).Decode(herr); err != nil {
 		t.Errorf("Json header check marschal body content: %s", err.Error())
 		return
@@ -52,7 +52,7 @@ func TestJsonHeaderCheckCorrectHeader(t *testing.T) {
 	req, err := http.NewRequest("POST", test.URL, bytes.NewBuffer([]byte(`{"echo":"test"}`)))
 	req.Header.Set("Content-Type", "application/json")
 
-	client := &http.Client{}
+	client := new(http.Client)
 	response, err := client.Do(req)
 	if err != nil {
 		t.Errorf("Json header check request: %s", err.Error())

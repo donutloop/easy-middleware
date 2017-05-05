@@ -15,7 +15,7 @@ var noCacheHeaders = map[string]string{
 	"X-Accel-Expires": "0",
 }
 
-var etagHeaders = []string{
+var etagHeaders = [6]string{
 	"ETag",
 	"If-Modified-Since",
 	"If-Match",

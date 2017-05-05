@@ -34,7 +34,9 @@ func extractURLQueries(req *http.Request) (*Queries, error) {
 		return nil, err
 	}
 
-	queries := &Queries{C: map[string][]string{}}
+	queries := &Queries{
+		C:make(map[string][]string),
+	}
 	if 0 == len(queriesRaw) {
 		return queries, nil
 	}
@@ -58,7 +60,7 @@ func (q Queries) Get(key string) []string {
 	if value, found := q.C[key]; found {
 		return value
 	}
-	return []string{}
+	return make([]string, 0)
 }
 
 // Get returns all queries of the current *http.Request queries

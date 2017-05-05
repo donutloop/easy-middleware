@@ -31,6 +31,7 @@ func TestSqlDb(t *testing.T) {
 	Close = func(db *sql.DB) error {
 		return nil
 	}
+
 	test := httptest.NewServer(SqlDb("test", "foo")(testHandler))
 	defer test.Close()
 

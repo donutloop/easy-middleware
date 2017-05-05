@@ -14,12 +14,15 @@ func TestRecoveryMiddleware(t *testing.T) {
 		panic("test")
 		w.WriteHeader(http.StatusOK)
 	}
-	var b bytes.Buffer
-	logger := log.New(&b, "", 0)
 	testHandler := http.HandlerFunc(handler)
+
+	b := new(bytes.Buffer)
+	logger := log.New(b, "", 0)
+
 	dumper := func(requestDump []byte, stackDump []byte) {
 		logger.Println(string(requestDump))
 	}
+
 	server := httptest.NewServer(Recovery(dumper)(testHandler))
 	defer server.Close()
 
