@@ -4,7 +4,6 @@ package easy_middleware
 import (
 	"net/http"
 	"time"
-	"fmt"
 )
 
 const DELAY_HEADER_KEY = "X-Add-Delay"
