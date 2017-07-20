@@ -26,7 +26,7 @@ func TestTimeout(t *testing.T) {
 
 	response, err := http.Get(test.URL)
 	if err != nil {
-		t.Errorf("timeout middleware request: %s", err.Error())
+		t.Errorf("timeout middleware request: %v", err)
 		return
 	}
 	defer response.Body.Close()

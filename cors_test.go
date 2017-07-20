@@ -15,11 +15,16 @@ func TestCors(t *testing.T) {
 	server := httptest.NewServer(Cors("")(testHandler))
 	defer server.Close()
 
-	req, err := http.NewRequest("Get", server.URL, nil)
+	req, err := http.NewRequest(http.MethodGet, server.URL, nil)
+	if err != nil {
+		t.Errorf("Cors check request: %v", err)
+		return
+	}
+
 	client := new(http.Client)
 	response, err := client.Do(req)
 	if err != nil {
-		t.Errorf("Cors check request: %s", err.Error())
+		t.Errorf("Cors check request: %v", err)
 		return
 	}
 	defer response.Body.Close()

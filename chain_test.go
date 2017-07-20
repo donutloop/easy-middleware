@@ -28,7 +28,7 @@ func TestThenOrdersHandlersCorrectly(t *testing.T) {
 	chained := New(t1, t2, t3).Then(testEndpoint)
 
 	w := httptest.NewRecorder()
-	r, err := http.NewRequest("GET", "/", nil)
+	r, err := http.NewRequest(http.MethodGet, "/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -37,6 +37,7 @@ func TestThenOrdersHandlersCorrectly(t *testing.T) {
 
 	if w.Body.String() != "t1\nt2\nt3\nendpoint\n" {
 		t.Errorf("Then does not order handlers correctly (Order: %s)", w.Body.String())
+		return
 	}
 }
 
@@ -65,7 +66,7 @@ func TestCreateOrdersHandlersCorrectly(t *testing.T) {
 	createdChained := Create(chained, t4).Then(testEndpoint)
 
 	w := httptest.NewRecorder()
-	r, err := http.NewRequest("GET", "/", nil)
+	r, err := http.NewRequest(http.MethodGet, "/", nil)
 
 	if err != nil {
 		t.Fatal(err)
@@ -75,6 +76,7 @@ func TestCreateOrdersHandlersCorrectly(t *testing.T) {
 
 	if w.Body.String() != "t1\nt2\nt3\nt4\nendpoint\n" {
 		t.Errorf("Then does not order handlers correctly (Order: %s)", w.Body.String())
+		return
 	}
 }
 
@@ -102,8 +104,7 @@ func TestCopyOrdersHandlersCorrectly(t *testing.T) {
 	copyChained := chained.Copy().Then(testEndpoint)
 
 	w := httptest.NewRecorder()
-	r, err := http.NewRequest("GET", "/", nil)
-
+	r, err := http.NewRequest(http.MethodGet, "/", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -112,6 +113,7 @@ func TestCopyOrdersHandlersCorrectly(t *testing.T) {
 
 	if w.Body.String() != "t1\nt2\nt3\nendpoint\n" {
 		t.Errorf("Then does not order handlers correctly (Order: %s)", w.Body.String())
+		return
 	}
 }
 
@@ -142,15 +144,15 @@ func TestAddOrdersHandlersCorrectly(t *testing.T) {
 	copyChained.Add(t2, t3)
 
 	w := httptest.NewRecorder()
-	r, err := http.NewRequest("GET", "/", nil)
+	r, err := http.NewRequest(http.MethodGet, "/", nil)
 
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	copyChained.Then(testEndpoint).ServeHTTP(w, r)
-
 	if w.Body.String() != "t1\nt2\nt3\nendpoint\n" {
 		t.Errorf("Then does not order handlers correctly (Order: %s)", w.Body.String())
+		return
 	}
 }

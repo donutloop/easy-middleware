@@ -19,12 +19,12 @@ func TestNoCache(t *testing.T) {
 
 	response, err := http.Get(test.URL + "?limit=10")
 	if err != nil {
-		t.Errorf("url query middleware request: %s", err.Error())
+		t.Errorf("url query middleware request: %v", err)
 		return
 	}
 	defer response.Body.Close()
 
 	if response.StatusCode != http.StatusOK {
-		t.Error("url query middleware request: Unexpected bad request")
+		t.Errorf("url query middleware request: Unexpected bad request (%d)", response.StatusCode)
 	}
 }

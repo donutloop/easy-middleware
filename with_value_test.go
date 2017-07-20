@@ -20,7 +20,7 @@ func TestWithValueMiddleware(t *testing.T) {
 
 	response, err := http.Get(server.URL)
 	if err != nil {
-		t.Errorf("WithValue middleware request: %s", err.Error())
+		t.Errorf("WithValue middleware request: %v", err)
 		return
 	}
 	defer response.Body.Close()

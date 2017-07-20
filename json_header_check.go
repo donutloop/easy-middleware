@@ -14,8 +14,8 @@ func JsonHeaderCheck() Middleware {
 	return func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			mediaType, params, _ := mime.ParseMediaType(r.Header.Get("Content-Type"))
-			charset, ok := params["charset"]
 
+			charset, ok := params["charset"]
 			if !ok {
 				charset = "UTF-8"
 			}
