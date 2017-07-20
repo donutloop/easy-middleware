@@ -17,14 +17,14 @@ func TestDelay(t *testing.T) {
 
 	req, err := http.NewRequest(http.MethodGet, test.URL, nil)
 	if err != nil {
-		t.Errorf("Delay middleware: While creating the request is error occured (%s)", err)
+		t.Errorf("Delay middleware: While creating the request is error occured (%v)", err)
 		return
 	}
 	req.Header.Add("X-Add-Delay", "300ms")
 
 	response, err := http.DefaultClient.Do(req)
 	if err != nil {
-		t.Errorf("Delay middleware request: %s", err.Error())
+		t.Errorf("Delay middleware request: %v", err)
 		return
 	}
 	defer response.Body.Close()

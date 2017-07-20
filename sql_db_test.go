@@ -37,7 +37,7 @@ func TestSqlDb(t *testing.T) {
 
 	response, err := http.Get(test.URL)
 	if err != nil {
-		t.Errorf("sql db middleware request: %s", err.Error())
+		t.Errorf("sql db middleware request: %v", err)
 		return
 	}
 	defer response.Body.Close()
